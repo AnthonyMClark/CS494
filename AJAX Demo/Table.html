@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+  <head>
+<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script>
+    </script>
+	<title>Anthony Clark Assignment 2</title>
+	<script>
+		function formValidate()
+		{
+			var minV = parseInt(document.valForm.elements[0].value);
+			var maxV = parseInt(document.valForm.elements[1].value);
+		
+			if ((minV < 0) || (minV > 100))
+			{
+				alert("Your minimum value is not a number between 0 and 100");
+			}
+			else
+			{
+				if ((maxV < 0) || (maxV > 100))
+				{	
+					alert("Your maximum value is not a number between 0 and 100");
+				}
+				else setTableValues(minV,maxV);
+			}
+		}
+				
+		function setTableValues(min,max)
+		{
+			var tableVal = [];
+			//var tableVal = [];
+			//var row = [];
+			//var tableRead = document.getElementById("multTable");
+			//var min = parseInt(document.tableRead.minVal.value
+			//var max = tableRead.maxVal.value
+			//Help with array from Huarui Wu
+			//COLS:
+			for (var i = min; i <= max; i++)
+			{
+				//ROWS:
+				tableVal[i] = [];
+				//ROW VALS:
+				for (var j = min; j <= max; j++)
+				{
+					tableVal[i].push(i * j);	
+				}
+			}
+            tableVal.forEach(function(row){
+               console.log(row);
+               console.log('\n');
+              
+            })
+			makeTable(tableVal);
+		}
+		function makeTable(tableVal)
+		{
+            var $row;
+            tableVal.forEach(function(r){
+              $row = $('<tr></tr>');
+              r.forEach(function(c){
+                $row.append('<td>'+c+'</td>');
+              });
+              $('#displayTable').append($row);
+              
+            });
+            $('#displayTable').find('th').prop('colspan', tableVal.length);
+          
+		}
+  </script>
+  
+  </head>
+  <body>
+	<h1> Javascript Multiplication </h1>
+	<form id = "valForm" name="valForm" >
+		Enter your minimum value: <input name = "minVal"/><BR>
+		Enter your maximum value: <input name = "maxVal"/><BR>
+		<button  text = "Generate Table" onClick = "formValidate()" type="button"> Generate Table</button>
+	</form>
+	<div id="showTable"></div>
+  			<table id = "displayTable" BORDER = 1 CELLPADDING = 5>
+				<th> Display Multiplication Table </th>
+			</table>
+  
+  </body>
+</html>

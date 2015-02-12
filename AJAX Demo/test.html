@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+	<meta charset="utf-8"/>
+   <title>Anthony Clark Assignment 2:2</title>
+   <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<style>
+		.divBord{border-style:solid; border-width:1px;}
+	</style>
+</head>
+
+<body>
+   <div><h1>Basic Ajax</h1></div>
+   <br>
+   
+   <div id="userIn"><form id="dropDown">
+	  Take me to a page:<br>
+	  <select id="fileSelect">
+		<option value="first">First Page</option>
+		<option value="second">Second Page</option>
+		<option value="403">403 Error</option>
+		<option value="404">404 Error</option>
+	  </select>
+      <input type="button" id="run" value="Display" onClick="callAjax()" />
+   </form></div>
+   <br><br>
+
+   <div id="otherpg" class="divBord">
+      <span><h3>Other Page Content</h3></span>
+	  <div id="userMessage"></div>
+   </div>
+   <script>
+   
+	function callAjax(){
+		//Display status message to user
+		$("#userMessage").html("connecting to page...");
+
+		//Set target = text file matching selected series and send it to its corresponding function
+		var target;
+		switch ($("#fileSelect").val()){
+			case "first":
+				runFirstPage();
+				break;
+			case "second":
+				runSecondPage();
+				break;
+			case "403":
+				run403Page();
+				break;
+			case "404":
+				run404Page();
+				break;
+		}
+	}
+	/*----------------------------------------SUCCESS - READ FILE DATA-----------------------------------------*/
+	function callbackFunction(data, info) 
+	{
+		$("#userMessage").empty(); // clear previous data from DOM
+		var name = $(data).find("item");
+		if(name && name.length)
+		{
+			for(var i=0; i<name.length; i++)
+			{
+				var elem = name[i];
+				$("#userMessage").append($(elem).text() + "<br>");
+			}
+		}
+	}
+	/*-------------------------------------------------------------------------------------------------------------------*/
+	
+	
+	/*-------------------------------------------ERROR HANDLING---------------------------------------------------*/
+	function errorFunction(xhr, status, error) 
+	{
+		var tempPath = window.location.pathname;
+		var pathName = tempPath.replace("test.html", this.url);
+		var pageURL = window.location.protocol + "//" + window.location.host + pathName;
+		if(xhr.status == 404) 
+		{
+			var errorMsg = "File not found";
+		}
+		else if (xhr.status == 403) 
+		{
+			errorMsg = "Forbidden";
+		}
+		$("#userMessage").empty(); // clear previous data from DOM
+		$("#userMessage").append("The requested page was: " + pageURL);	
+		$("#userMessage").append("<br>The error number returned was: " + xhr.status);
+		$("#userMessage").append("<br>The error message was: " + errorMsg);
+	}
+	/*-------------------------------------------------------------------------------------------------------------------*/
+	
+	
+	/*---------------------------Run the function by calling the page and deeming it a success or error-------------------------*/
+	function runFirstPage()
+	{
+		$.ajax({url:"firstPage.txt",
+			success:callbackFunction, error:errorFunction});
+	}
+	function runSecondPage() 
+	{
+		$.ajax({url:"secondPage.txt", 
+			success:callbackFunction, error:errorFunction});
+	}
+	function run403Page() 
+	{
+		$.ajax({url:".htaccess",
+			success:callbackFunction, error:errorFunction});
+	}		
+	function run404Page() 
+	{
+		$.ajax({url:"404Me.txt",
+			success:callbackFunction, error:errorFunction});
+	}	
+	/*---------------------------------------------------------------------------------------------------------------------------*/
+	
+	/*http://css-tricks.com/snippets/javascript/get-url-and-url-parts-in-javascript/ PER Robert Kety's suggestion on Piazza*/
+	
+		
+		/*skip http and get the host name of the URL
+		var host = window.location.host;
+		// split the string on "/" characters
+		var pathArray = window.location.pathname.split( '/' );
+		//init pathname and put pathname back together, you can stitch together the array and put the "/"'s back in:
+		var newPathname = "";
+		for (var i = 1; i < pathArray.length-1; i++ ) {
+			  newPathname += "/";
+			  newPathname += pathArray[i];
+		}
+		//put our URL back together
+		var buildURL = "http://" + host + newPathname;
+		//Show File in userMessage div
+		.done (function(data, info){
+		  $("#userMessage").html(data);
+		})
+		//File failed, give error message in userMessage div
+		.fail (function(jqXHR, status, msg){
+		  var errStr = "";
+		  errStr = errStr + "<br>The requested page was: " + buildURL + "/" + target;
+		  errStr = errStr + "<br>The error number returned was: " + jqXHR.status;
+		  errStr = errStr + "<br>The error message was: " + msg;
+		  $("#userMessage").html(errStr);
+		});
+	  }*/
+
+	</script>
+</body>
+</html>

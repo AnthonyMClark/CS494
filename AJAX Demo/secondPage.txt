@@ -1,0 +1,6 @@
+<root>
+<item><name>Italy</name><attribute>Lucca</attribute></item>
+<item><name>France</name><attribute>Paris</attribute></item>
+<item><name>Germany</name><attribute>Munich</attribute></item>
+<item><name>Spain</name><attribute>Madrid</attribute></item>
+</root>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Anthony Clark Assignment 2:3</title>
+	<meta charset="utf-8"/>
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<style>
+		.divBord{border-style:solid; border-width:1px;}
+	</style>
+	<script>
+		//http://stackoverflow.com/questions/11214404/how-to-detect-if-browser-supports-html5-local-storage
+		$(document).ready(function() {
+			if(typeof(Storage)=="undefined"){
+				$("#displayVal").append("Local storage is disabled on the client");			
+			}
+		});
+		function saveInput() 
+		{
+			localStorage.string = $("#inputForm").val();
+		}
+		function clearInput() 
+		{
+			localStorage.string = "";
+		}	
+		function prependInput() 
+		{
+			localStorage.string = $("#inputForm").val() + localStorage.string;
+		}
+		function appendInput() 
+		{
+			localStorage.string += $("#inputForm").val();
+		}
+		function displayInput()
+		{
+			$("#displayVal").append(localStorage.string + "<br>");
+		}
+	</script>
+</head>
+<body>
+	<h1>Local Storage and Error Handling</h1>
+	
+		<div id="textbox"><form id="form">
+			<input type="text" id="inputForm">
+		</div>
+		<input type="button" id="save" value="Save String" onclick="saveInput()">
+		<input type="button" id="clear" value="Clear String" onclick="clearInput()">
+		<input type="button" id="prepend" value="Prepend" onclick="prependInput()">
+		<input type="button" id="append" value="Append" onclick="appendInput()">
+		<input type="button" id="display" value="Display String" onclick="displayInput()">
+	</form>
+	<br><br>
+	<div id="output" class="divBord">
+      <span><h2>Output</h2></span>
+	  <div id="displayVal"></div>
+	</div>
+</body>
+</html>
